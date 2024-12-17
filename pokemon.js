@@ -11,6 +11,7 @@ fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
   .then((response) => response.json())
   .then((data) => {
     allPokemons = data.results;
+    displayPokemons(allPokemons);
   });
 async function fetchPokemonDataBeforeRedirect(id) {
   try {
@@ -37,16 +38,43 @@ function displayPokemons(pokemon) {
           <p class="caption-fonts">#${pokemonID}</p>
     </div>
     <div class="img-wrao">
-         <img src="https://raw.gitgubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/dream-world${pokemonID}.svg" alt="${pokemon.name}"/>
+         <img src="https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/dream-world/${pokemonID}.svg" alt="${pokemon.name}"/>
     </div>
-    div class="name-wrap">
+    <div class="name-wrap">
           <p class="body3-fonts">#${pokemon.name}</p>
     </div>`;
-    listItem.addEventListener("click", async()=>{
+    listItem.addEventListener('click', async () => {
       const success = await fetchPokemonDataBeforeRedirect(pokemonID);
-      if (success){
+      if (success) {
         window.location.href = `./detail.html?id=${pokemonID}`;
       }
-    })
+    });
+    listWrapper.appendChild(listItem);
   });
+}
+searchInput.addEventListener('keyup', handleSearch);
+function handleSearch() {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  let filteredPokemons;
+  if (numberFilter.checked) {
+    filteredPokemons = allPokemons.filter((pokemon) => {
+      const pokemonID = pokemon.url.split("/")[6];
+      return pokemonID.startsWith(searchTerm);
+    });
+  } else if (nameFilter.checked) {
+    filteredPokemons = allPokemons.filter((pokemon) => {
+      pokemon.name.toLowerCase().startsWith(searchTerm);
+    });
+  } else {
+    filteredPokemons = allPokemons;
+  }
+
+  displayPokemons(filteredPokemons);
+  if (filteredPokemons, length === 0) {
+    notFoundMessage.style.display = "block"
+  } else {
+    notFoundMessage.style.display = "none"
+  }
+
 }
