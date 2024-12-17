@@ -100,10 +100,18 @@ function setTypeBackgroundColor(pokemon){
     setElementStyles(document.querySelectorAll(".power-wrapper > p"),"backgroundColor","color",color)
     setElementStyles(document.querySelectorAll(".stats-wrap p.stats"),"color",color)
     setElementStyles(document.querySelectorAll(".stats-wrap .progress-bar"),"color",color)
-};
-const rgbaColor = rgbaFromHex(color);
-const styleTag = document.createElement("style");
-styleTag.innerHTML = `
-.stats-wrap .progress-bar`
+
+ const rgbaColor = rgbaFromHex(color);
+ const styleTag = document.createElement("style");
+ styleTag.innerHTML = `
+ .stats-wrap .progress-bar::-webkit-progress-bar{
+ background-color: rgba${rgbaColor},0.5);
+ }
+ .stats-wrap .progress-bar::-webkit-progress-value{
+ background-color:${color};
+ }`;
+  document.head.appendChild(styleTag);
+}
+
 
 
