@@ -76,34 +76,48 @@ const typeColors = {
   steel: '#b8b8d0',
   dark: '#ee99ac',
 };
-function setElementStyles(elements,cssProperty,value){
-    elements.forEach((element)=>{
-        element.style[cssProperty]= value;
-    });
+function setElementStyles(elements, cssProperty, value) {
+  elements.forEach((element) => {
+    element.style[cssProperty] = value;
+  });
 }
-function rgbaFromHex(hexColor){
-    return [parseInt(hexColor.slice(1,3), 16),
-        parseInt(hexColor.slice(3,5), 16),
-        parseInt(hexColor.slice(5,7), 16),
-    ].join(",")
+function rgbaFromHex(hexColor) {
+  return [
+    parseInt(hexColor.slice(1, 3), 16),
+    parseInt(hexColor.slice(3, 5), 16),
+    parseInt(hexColor.slice(5, 7), 16),
+  ].join(',');
 }
-function setTypeBackgroundColor(pokemon){
-    const mainType = pokemon.types[0].type.name;
-    const color = typeColors[mainType];
-    if(!color){
-        console.warn(`Color not defined for type: ${mainType}`);
-     return;
-    }
-    const detailMainElement = document.querySelector(".detail-main");
-    setElementStyles([detailMainElement],"backgroundColor",color);
-    setElementStyles([detailMainElement],"borderColor",color);
-    setElementStyles(document.querySelectorAll(".power-wrapper > p"),"backgroundColor","color",color)
-    setElementStyles(document.querySelectorAll(".stats-wrap p.stats"),"color",color)
-    setElementStyles(document.querySelectorAll(".stats-wrap .progress-bar"),"color",color)
+function setTypeBackgroundColor(pokemon) {
+  const mainType = pokemon.types[0].type.name;
+  const color = typeColors[mainType];
+  if (!color) {
+    console.warn(`Color not defined for type: ${mainType}`);
+    return;
+  }
+  const detailMainElement = document.querySelector('.detail-main');
+  setElementStyles([detailMainElement], 'backgroundColor', color);
+  setElementStyles([detailMainElement], 'borderColor', color);
+  setElementStyles(
+    document.querySelectorAll('.power-wrapper > p'),
+    'backgroundColor',
+    'color',
+    color,
+  );
+  setElementStyles(
+    document.querySelectorAll('.stats-wrap p.stats'),
+    'color',
+    color,
+  );
+  setElementStyles(
+    document.querySelectorAll('.stats-wrap .progress-bar'),
+    'color',
+    color,
+  );
 
- const rgbaColor = rgbaFromHex(color);
- const styleTag = document.createElement("style");
- styleTag.innerHTML = `
+  const rgbaColor = rgbaFromHex(color);
+  const styleTag = document.createElement('style');
+  styleTag.innerHTML = `
  .stats-wrap .progress-bar::-webkit-progress-bar{
  background-color: rgba${rgbaColor},0.5);
  }
@@ -112,65 +126,89 @@ function setTypeBackgroundColor(pokemon){
  }`;
   document.head.appendChild(styleTag);
 }
-function capitalizeFirsLetter(string){
+function capitalizeFirsLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice.toLowerCase();
 }
-function createAndAppendElement(parent,tag, options = {}){
+function createAndAppendElement(parent, tag, options = {}) {
   const element = document.createElement(tag);
   Object.keys(options).forEach((key) => {
-    element[key]= options[key];
+    element[key] = options[key];
   });
   parent.appendChild(element);
   return element;
 }
 
 function displayPokemonDetails(pokemon) {
-const {name,id,types, weight,height,abilities, stats} = pokemon;
-const capitalizePokemonName = capitalizeFirsLetter(name);
-document.querySelector('title').textContent = capitalizePokemonName;
-const detailMainElement = document.querySelector(".detail-main");
-detailMainElement.classList.add(name.toLowerCase());
-document.querySelector("name-wrap .name").textContent = capitalizePokemonName;
-document.querySelector(".pokemon-id-wrap .body2-fonts"),
-textContent = `#${string(id).padStart(3,"0")}`;
-const imageElement = document.querySelector(".detail-img-wrapper img");
-imageElement.src = `https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/other/dream-world/${id}.svg`;
-const typeWrapper = document.querySelector(".power-wrapper");
-typeWrapper.innerHTML = "";
-types.forEach(({type}) =>{
-  createAndAppendElement(typeWrapper,"p",{
-    className: `body3-fonts type ${type.name}`,
-    textContent: type.name,
+  const { name, id, types, weight, height, abilities, stats } = pokemon;
+  const capitalizePokemonName = capitalizeFirsLetter(name);
+  document.querySelector('title').textContent = capitalizePokemonName;
+  const detailMainElement = document.querySelector('.detail-main');
+  detailMainElement.classList.add(name.toLowerCase());
+  document.querySelector('name-wrap .name').textContent = capitalizePokemonName;
+  document.querySelector('.pokemon-id-wrap .body2-fonts'),
+    (textContent = `#${string(id).padStart(3, '0')}`);
+  const imageElement = document.querySelector('.detail-img-wrapper img');
+  imageElement.src = `https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/other/dream-world/${id}.svg`;
+  const typeWrapper = document.querySelector('.power-wrapper');
+  typeWrapper.innerHTML = '';
+  types.forEach(({ type }) => {
+    createAndAppendElement(typeWrapper, 'p', {
+      className: `body3-fonts type ${type.name}`,
+      textContent: type.name,
+    });
   });
-});
-document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-font.weight").textContent = `${weight / 10} kg`;
-document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-font.height").textContent = `${height / 10} kg`;
-const abilitiesWrapper = document.querySelector(".pokemon-detail-wrap .pokemon-detail-move");
- abilities.forEach(({ability})=> {
-  createAndAppendElement(abilitiesWrapper,"p", {
-    className:"body3-fonts",
-    textContent:ability.name,
+  document.querySelector(
+    '.pokemon-detail-wrap .pokemon-detail p.body3-font.weight',
+  ).textContent = `${weight / 10} kg`;
+  document.querySelector(
+    '.pokemon-detail-wrap .pokemon-detail p.body3-font.height',
+  ).textContent = `${height / 10} kg`;
+  const abilitiesWrapper = document.querySelector(
+    '.pokemon-detail-wrap .pokemon-detail-move',
+  );
+  abilities.forEach(({ ability }) => {
+    createAndAppendElement(abilitiesWrapper, 'p', {
+      className: 'body3-fonts',
+      textContent: ability.name,
+    });
   });
- });
- const statsWrapper = document.querySelector("stats-wrapper");
- statsWrapper.innerHTML = "";
- const statNameMapping = {
-  hp: "HP",
-  attack: "ATK",
-  defence: "DEF",
-  "special-attack": "SATK",
-  "special-defence": "SDEF",
-  speed: "SPD",
- };
- stats.forEach(({stat, base_stat})=>{
-  const statDiv = document.createElement("div");
-  statDiv.className = "stats-wrap";
-  statsWrapper.appendChild(statDiv);
-  createAndAppendElement(statDiv, "p",{
-    className:"body3-fonts stats",
-    textContent: statNameMapping[stat.name]
-  })
- })
+  const statsWrapper = document.querySelector('stats-wrapper');
+  statsWrapper.innerHTML = '';
+  const statNameMapping = {
+    hp: 'HP',
+    attack: 'ATK',
+    defence: 'DEF',
+    'special-attack': 'SATK',
+    'special-defence': 'SDEF',
+    speed: 'SPD',
+  };
+  stats.forEach(({ stat, base_stat }) => {
+    const statDiv = document.createElement('div');
+    statDiv.className = 'stats-wrap';
+    statsWrapper.appendChild(statDiv);
+    createAndAppendElement(statDiv, 'p', {
+      className: 'body3-fonts stats',
+      textContent: statNameMapping[stat.name],
+    });
+    createAndAppendElement(statDiv, 'p', {
+      className: 'body3-fonts ',
+      textContent: String(base_stat).padStart(3, '0'),
+    });
+
+    createAndAppendElement(statDiv, 'progress', {
+      className: 'progress-bar',
+      value: base_stat,
+      max: 100,
+    });
+  });
+  setTypeBackgroundColor(pokemon);
 }
-
-
+function getEnglisFlavorText(pokemonSpecies) {
+  for (let entry of pokemonSpecies.flavor_text_entries) {
+    if (entry.language.name === 'en') {
+      let flavor = entry.flavor_text.replace(/\f/g, '');
+      return flavor;
+    }
+  }
+}
+return flavor;
