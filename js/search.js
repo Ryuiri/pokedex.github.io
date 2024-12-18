@@ -12,10 +12,10 @@ sort_wrapper.addEventListener("click",
 function handleInputChange(inputElement){
     const inputValue = inputElement.value;
     if (inputValue !== "") {
-        document.querySelector("search-close-icon")
+        document.querySelector("#search-close-icon")
         .classList.add("search-close-icon-visible");
     } else {
-        document.querySelector("search-close-icon")
+        document.querySelector("#search-close-icon")
         .classList.remove("search-close-icon-visible");
     }
 }
