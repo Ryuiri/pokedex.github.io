@@ -145,6 +145,32 @@ types.forEach(({type}) =>{
 });
 document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-font.weight").textContent = `${weight / 10} kg`;
 document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-font.height").textContent = `${height / 10} kg`;
+const abilitiesWrapper = document.querySelector(".pokemon-detail-wrap .pokemon-detail-move");
+ abilities.forEach(({ability})=> {
+  createAndAppendElement(abilitiesWrapper,"p", {
+    className:"body3-fonts",
+    textContent:ability.name,
+  });
+ });
+ const statsWrapper = document.querySelector("stats-wrapper");
+ statsWrapper.innerHTML = "";
+ const statNameMapping = {
+  hp: "HP",
+  attack: "ATK",
+  defence: "DEF",
+  "special-attack": "SATK",
+  "special-defence": "SDEF",
+  speed: "SPD",
+ };
+ stats.forEach(({stat, base_stat})=>{
+  const statDiv = document.createElement("div");
+  statDiv.className = "stats-wrap";
+  statsWrapper.appendChild(statDiv);
+  createAndAppendElement(statDiv, "p",{
+    className:"body3-fonts stats",
+    textContent: statNameMapping[stat.name]
+  })
+ })
 }
 
 
