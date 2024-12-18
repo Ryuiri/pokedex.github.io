@@ -112,6 +112,15 @@ function setTypeBackgroundColor(pokemon){
  }`;
   document.head.appendChild(styleTag);
 }
+function capitalizeFirsLetter(string){
+  return string.charAt(0).toUpperCase() + string.slice.toLowerCase();
+}
+function createAndAppendElement()
 
+function displayPokemonDetails(pokemon) {
+const {name,id,types, weight,height,abilities, stats} = pokemon;
+const capitalizePokemonName = capitalizeFirsLetter(name);
+document.querySelector('title').textContent = capitalizePokemonName;
+}
 
 
