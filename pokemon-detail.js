@@ -130,7 +130,13 @@ const capitalizePokemonName = capitalizeFirsLetter(name);
 document.querySelector('title').textContent = capitalizePokemonName;
 const detailMainElement = document.querySelector(".detail-main");
 detailMainElement.classList.add(name.toLowerCase());
-document.querySelector("name-wrap .name");
+document.querySelector("name-wrap .name").textContent = capitalizePokemonName;
+document.querySelector(".pokemon-id-wrap .body2-fonts"),
+textContent = `#${string(id).padStart(3,"0")}`;
+const imageElement = document.querySelector(".detail-img-wrapper img");
+imageElement.src = `https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/other/dream-world/${id}.svg`;
+const typeWrapper = document.querySelector(".power-wrapper");
+typeWrapper.innerHTML = "";
 }
 
 
