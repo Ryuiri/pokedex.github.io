@@ -115,12 +115,22 @@ function setTypeBackgroundColor(pokemon){
 function capitalizeFirsLetter(string){
   return string.charAt(0).toUpperCase() + string.slice.toLowerCase();
 }
-
+function createAndAppendElement(parent,tag, options = {}){
+  const element = document.createElement(tag);
+  Object.keys(options).forEach((key) => {
+    element[key]= options[key];
+  });
+  parent.appendChild(element);
+  return element;
+}
 
 function displayPokemonDetails(pokemon) {
 const {name,id,types, weight,height,abilities, stats} = pokemon;
 const capitalizePokemonName = capitalizeFirsLetter(name);
 document.querySelector('title').textContent = capitalizePokemonName;
+const detailMainElement = document.querySelector(".detail-main");
+detailMainElement.classList.add(name.toLowerCase());
+document.querySelector("name-wrap .name");
 }
 
 
